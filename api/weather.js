@@ -5,11 +5,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "City is required" });
   }
 
-  const API_KEY = process.env.WEATHERBIT_API_KEY;
-
   try {
     const response = await fetch(
-      `https://api.weatherbit.io/v2.0/current?city=${encodeURIComponent(city)}&key=${API_KEY}`
+      `https://api.weatherbit.io/v2.0/current?city=${encodeURIComponent(city)}&key=${process.env.WEATHERBIT_API_KEY}`
     );
 
     if (!response.ok) {
@@ -28,8 +26,7 @@ export default async function handler(req, res) {
       wind: weather.wind_spd,
       icon: weather.weather.icon
     });
-
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
 }
